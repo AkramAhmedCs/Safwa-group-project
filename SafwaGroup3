@@ -1,0 +1,116 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+public class Main {
+    static ArrayList<String> items = new ArrayList<>();
+    static ArrayList<Integer> prices = new ArrayList<>();
+    static ArrayList<String> order = new ArrayList<>();
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        boolean flag = true;
+        String name = null;
+        String Lname = null;
+        String pass = null;
+        int type = 0;
+        int sum = 0;
+
+        Collections.addAll(items,"Blue hoodie","Red hoodie","White sweat pants","Black sweat pants","Blue sweat pants","Black Jacket","White jacket"," Blue-shirt","black t-shirt ","red t-shirt","classic shoes","Running shoes", "Hiking shoes");
+        prices.add(200);
+        prices.add(300);
+        prices.add(150);
+        prices.add(250);
+        prices.add(350);
+
+        System.out.println("Welcome to our store (:");
+        while (flag) {
+            System.out.println("Please choose an operation: ");
+            System.out.println("(1) Registration \n(2) The item list \n(3) The receipt\n(4) To logout ");
+            int operation = in.nextInt();
+            in.nextLine(); // Consume the leftover newline
+
+            switch (operation) {
+                case 1:
+                    System.out.println("For registration, please fill in these informations");
+                    System.out.println("Enter your first name");
+                    name = in.next();
+                    System.out.println("Enter your second name");
+                    Lname = in.next();
+                    System.out.println("Create your own password");
+                    pass = in.next();
+                    System.out.println("Click (1) if you are a store staff or (2) if you are a client");
+                    type = in.nextInt();
+                    System.out.println("Your registration completed successfully (;");
+                    break;
+
+                case 2:
+                    if (type == 1) {
+                        System.out.println("Welcome, would you like to view the inventory? yes/no");
+                        String answer = in.next();
+                        if (answer.equals("yes")) {
+                            for (int i = 0; i < items.size(); i++) {
+                                System.out.println(items.get(i));
+                            }
+                        } else {
+                            System.out.println("Goodbye");
+                            System.exit(0);
+                        }
+                    }
+
+                    if (type == 2) {
+                        System.out.println("Welcome dear " + name + ", here are the products we have and their respective prices ");
+                        for (int i = 0; i < items.size(); i++) {
+                            System.out.println((i + 1) + ") " + items.get(i) + " - $" + prices.get(i));
+                        }
+                        while (true) {
+                            System.out.println("Please enter the number of the product you want to choose: ");
+                            int productChoice = in.nextInt();
+                            in.nextLine();
+
+                            if (productChoice >= 1 && productChoice <= items.size()) {
+                                int selectedIndex = productChoice - 1;
+                                String selectedItem = items.get(selectedIndex);
+                                order.add(selectedItem);
+                                int selectedPrice = prices.get(selectedIndex);
+                                //add the item.remove(i);
+                                System.out.println("You have selected: " + selectedItem + " for $" + selectedPrice);
+                                sum += selectedPrice;
+                            } else {
+                                System.out.println("Invalid product choice.");
+                            }
+                            System.out.println("Would you like to do another purchase? yes/no");
+                            String reply = in.nextLine();
+                            if (!reply.equals("yes")) {
+                                //add delv(in a new variable ) prices then add the total to the sum;
+                                System.out.println("Thank you for choosing us");
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("You ordered:");
+                    for (int i = 0; i < order.size(); i++) {
+                        System.out.println(order.get(i));
+                    }
+                    /* if (sum>=500)
+                    apply discount
+                    */
+                    System.out.println("Your total is: " + sum);//add the delv price
+                    flag=false;
+                    break;
+
+                case 4:
+                    System.out.println("Logging you out ...");
+                    flag = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid operation. Please try again.");
+            }
+        }
+    }
+}
